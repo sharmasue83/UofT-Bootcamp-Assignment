@@ -63,7 +63,7 @@ print("---------------------------------------")
     
     
 with open("pypolloutput.txt", "w") as txt_file:
-    txt_file.write(" Election Result" + "\n" +          
+   txt_file.write(" Election Result" + "\n" +          
     "-----------------------------------------"+ "\n"+
     "Total Votes: " +str(row_count) + "\n" +
     "-----------------------------------------"+"\n"+
