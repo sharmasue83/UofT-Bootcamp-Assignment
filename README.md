@@ -1,2 +1,2 @@
-# UofT-Bootcamp-Assignment
-Assignment Submission
+# UofT-Bootcamp-Projects
+UoFt Project Submission
