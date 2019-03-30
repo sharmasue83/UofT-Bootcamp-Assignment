@@ -2,7 +2,7 @@
 
 var myMap = L.map("map", {
     center: [40.7128, -74.0059],
-    zoom:11
+    zoom:6
 });
 
 //Add tile layer
@@ -17,45 +17,53 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 //Link to geoJSON
 
-var API_Link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
-console.log(API_Link);
+var API_Link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson";
 
-var geojson;
+
+console.log(API_Link);
+function get_color(d) {
+  if (d >= 5.0)
+    return "#FF0000";
+  if (d >= 4.0)
+    return "#FF6600";
+  if (d >= 3.0)
+    return "#FF9900";
+  if (d >= 2.0)
+    return "#FFFF33";
+  else
+    return "#99FF66";
+};
+//var geojson;
 
 // Grab data with d3
 d3.json(API_Link, function(data) {
-
-    function get_color(magnitude){
-        return "#fff";
-            }
-
-    function get_radius(magnitude){
-        return magnitude * 2;
+  var geojsonMarkerOptions = {
+    radius: feature.properties.mag*3,
+    fillColor: get_color(feature.properties.mag),
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+};
+  L.geoJSON(data, {
+    pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng,geojsonMarkerOptions)
+    }, 
+    onEachFeature: function (feature,layer) {
+      layer.bindPopup('<h4>'+feature.properties.place+'</h4><p>Magnitude: '+feature.properties.mag+'</p>')
     }
+  })
+.addTo(myMap)
+});
 
-    console.log(features.properties.mag);
+    
 
 
-    var geojsonMarkerOptions = {
-        radius: 8,
-        fillColor: get_color(features.properties.mag),
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    };
+    
     
 
     // Create a new geojson layer
-    L.geoJSON(data, {
-
-        
-
-        
-            pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng,geojsonMarkerOptions);
-            }
-        }).addTo(myMap);
+    
 
         
   
@@ -80,7 +88,7 @@ d3.json(API_Link, function(data) {
       */
     //})
 
-    });
+    
 
       
 
